@@ -1,101 +1,119 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Verificación</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: url('/fondo-validacion.jpg') no-repeat center center;
-            background-size: cover;
-            height: 100vh;
-            overflow: hidden;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: url('/fondo-validacion.jpg') no-repeat center center;
+        background-size: cover;
+        height: 100vh;
+        overflow: hidden;
+      }
 
-        .modal {
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 30px 20px;
-            width: 90%;
-            max-width: 340px;
-            color: white;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
-            animation: fadeIn 0.5s ease-out;
-        }
+      .modal {
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 30px 20px;
+        width: 90%;
+        max-width: 340px;
+        color: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+        animation: fadeInPop 1.5s ease-out forwards;
+        opacity: 1;
+        transition: opacity 1s ease, transform 1s ease;
+      }
 
-        .modal h2 {
-            color: #0b815a;
-            margin-bottom: 10px;
-            font-size: 1.6rem;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-        }
+      .modal.fade-out {
+        animation: fadeOutBlur 1.3s ease-in forwards;
+      }
 
-        .modal p {
-            font-size: 1rem;
-            margin: 8px 0;
-            color: #f4f4f4;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-        }
+      .modal h2 {
+        color: #4ade80;
+        margin-bottom: 10px;
+        font-size: 1.6rem;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+      }
 
-        .modal p strong {
-            color: #fff;
-        }
+      .modal p {
+        font-size: 1rem;
+        margin: 8px 0;
+        color: #f4f4f4;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+      }
 
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -60%);
-            }
-
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%);
-            }
+      @keyframes fadeInPop {
+        0% {
+          opacity: 0;
+          transform: scale(0.8) translate(-50%, -50%);
+          filter: blur(8px);
         }
+        50% {
+          opacity: 0.4;
+          transform: scale(1.05) translate(-50%, -50%);
+          filter: blur(2px);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1) translate(-50%, -50%);
+          filter: blur(0);
+        }
+      }
+
+      @keyframes fadeOutBlur {
+        0% {
+          opacity: 1;
+          transform: scale(1) translate(-50%, -50%);
+          filter: blur(0);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0.8) translate(-50%, -50%);
+          filter: blur(6px);
+        }
+      }
     </style>
-</head>
-
-<body>
+  </head>
+  <body>
     <div class="modal" id="modal">
-        <button class="close-btn" onclick="cerrarModal()">×</button>
-        <h2>✅ ¡Gorra original verificada!</h2>
-        <p><strong>ID:</strong>
-            <%= gorra.id %>
-        </p>
-        <p><strong>Escaneos:</strong>
-            <%= gorra.contador %>
-        </p>
+      <button class="close-btn" onclick="cerrarModal()">×</button>
+      <h2>✅ ¡Gorra original verificada!</h2>
+      <p><strong>ID:</strong> <%= gorra.id %></p>
+      <p><strong>Escaneos:</strong> <%= gorra.contador %></p>
     </div>
 
     <script>
-        function cerrarModal() {
-            const modal = document.getElementById('modal');
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto'; // permitir scroll si lo hay
-        }
-    </script>
-</body>
+      function cerrarModal() {
+        const modal = document.getElementById('modal');
+        modal.classList.add('fade-out');
 
+        setTimeout(() => {
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }, 1300); // Duración del fade-out
+      }
+    </script>
+  </body>
 </html>
