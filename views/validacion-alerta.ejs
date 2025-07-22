@@ -1,119 +1,170 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Verificación</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: url('/fondo-validacion.jpg') no-repeat center center;
-        background-size: cover;
-        height: 100vh;
-        overflow: hidden;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verificación</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('/fondo-validacion.jpg') no-repeat center center;
+      background-size: cover;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .modal {
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(0, 255, 157, 0.4);
+      border-radius: 20px;
+      padding: 30px 20px;
+      width: 90%;
+      max-width: 340px;
+      color: white;
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      box-shadow: 0 0 30px rgba(0, 255, 157, 0.2);
+      animation: fadeInPop 1.5s ease-out forwards;
+      opacity: 1;
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .modal.fade-out {
+      animation: fadeOutBlur 1.3s ease-in forwards;
+    }
+
+    .modal h2 {
+      color: #00ff9d;
+      margin-bottom: 10px;
+      font-size: 1.6rem;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal p {
+      font-size: 1rem;
+      margin: 8px 0;
+      color: #f1f1f1;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: #ccc;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    @keyframes fadeInPop {
+      0% {
+        opacity: 0;
+        transform: scale(0.8) translate(-50%, -50%);
+        filter: blur(8px);
       }
 
-      .modal {
-        backdrop-filter: blur(10px);
-        background: rgba(0, 0, 0, 0.6);
-        border: 1px solid rgba(0, 255, 157, 0.4);
-        border-radius: 20px;
-        padding: 30px 20px;
-        width: 90%;
-        max-width: 340px;
-        color: white;
-        position: absolute;
-        top: 60%; /* Bajamos un poco */
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        box-shadow: 0 0 30px rgba(0, 255, 157, 0.2);
-        animation: fadeInPop 1.5s ease-out forwards;
+      50% {
+        opacity: 0.4;
+        transform: scale(1.05) translate(-50%, -50%);
+        filter: blur(2px);
+      }
+
+      100% {
         opacity: 1;
-        transition: opacity 1s ease, transform 1s ease;
+        transform: scale(1) translate(-50%, -50%);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes fadeOutBlur {
+      0% {
+        opacity: 1;
+        transform: scale(1) translate(-50%, -50%);
+        filter: blur(0);
       }
 
-      .modal.fade-out {
-        animation: fadeOutBlur 1.3s ease-in forwards;
+      100% {
+        opacity: 0;
+        transform: scale(0.8) translate(-50%, -50%);
+        filter: blur(6px);
       }
+    }
 
-      .modal h2 {
-        color: #00ff9d;
-        margin-bottom: 10px;
-        font-size: 1.6rem;
-        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
-      }
+    .insta-card {
+      z-index: 1;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(6px);
+      padding: 10px 20px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+    }
 
-      .modal p {
-        font-size: 1rem;
-        margin: 8px 0;
-        color: #f1f1f1;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-      }
+    .insta-card img {
+      width: 20px;
+      height: 20px;
+    }
+  </style>
+</head>
 
-      .close-btn {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        background: none;
-        border: none;
-        color: #ccc;
-        font-size: 1.5rem;
-        cursor: pointer;
-      }
+<body>
+  <div class="modal" id="modal">
+    <button class="close-btn" onclick="cerrarModal()">×</button>
+    <h2>✅ ¡Gorra original verificada!</h2>
+    <p><strong>ID:</strong> <%= gorra.id %></p>
+    <p><strong>Escaneos:</strong> <%= gorra.contador %></p>
+  </div>
 
-      @keyframes fadeInPop {
-        0% {
-          opacity: 0;
-          transform: scale(0.8) translate(-50%, -50%);
-          filter: blur(8px);
-        }
-        50% {
-          opacity: 0.4;
-          transform: scale(1.05) translate(-50%, -50%);
-          filter: blur(2px);
-        }
-        100% {
-          opacity: 1;
-          transform: scale(1) translate(-50%, -50%);
-          filter: blur(0);
-        }
-      }
+  <script>
+    function cerrarModal() {
+      const modal = document.getElementById('modal');
+      modal.classList.add('fade-out');
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 1300);
+    }
+  </script>
 
-      @keyframes fadeOutBlur {
-        0% {
-          opacity: 1;
-          transform: scale(1) translate(-50%, -50%);
-          filter: blur(0);
-        }
-        100% {
-          opacity: 0;
-          transform: scale(0.8) translate(-50%, -50%);
-          filter: blur(6px);
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="modal" id="modal">
-      <button class="close-btn" onclick="cerrarModal()">×</button>
-      <h2>✅ ¡Gorra original verificada!</h2>
-      <p><strong>ID:</strong> <%= gorra.id %></p>
-      <p><strong>Escaneos:</strong> <%= gorra.contador %></p>
-    </div>
 
-    <script>
-      function cerrarModal() {
-        const modal = document.getElementById('modal');
-        modal.classList.add('fade-out');
+  <!-- Instagram Button -->
+<a href="https://www.instagram.com/legacy_cap.s?igsh=czIxdTJhMmxmdGxv" target="_blank"
+  style="position: absolute; top: 56%; left: 50%; transform: translateX(-50%); z-index: 1;">
+  <div class="insta-card" style="min-width: 220px;">
+    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" />
+    Síguenos en Instagram
+  </div>
+</a>
 
-        setTimeout(() => {
-          modal.style.display = 'none';
-          document.body.style.overflow = 'auto';
-        }, 1300); // Duración del fade-out
-      }
-    </script>
-  </body>
+<!-- TikTok Button -->
+<a href="https://www.tiktok.com/@legacycap.s" target="_blank"
+  style="position: absolute; top: 62%; left: 50%; transform: translateX(-50%); z-index: 1;">
+  <div class="insta-card" style="min-width: 220px;">
+    <img src="https://cdn-icons-png.flaticon.com/512/3046/3046126.png" alt="TikTok" />
+    Síguenos en TikTok
+  </div>
+</a>
+
+
+</body>
+
 </html>
