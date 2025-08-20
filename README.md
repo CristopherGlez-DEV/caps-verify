@@ -31,6 +31,17 @@
 $ npm install
 ```
 
+### Environment variables
+
+Create a `.env` file in the project root with your MongoDB connection details:
+
+```
+MONGODB_URI="mongodb://localhost:27017"
+MONGODB_DB="nombre_de_la_bd"
+```
+
+These values are used at application startup to establish a single connection that is shared across the app.
+
 ## Compile and run the project
 
 ```bash
