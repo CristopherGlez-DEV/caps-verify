@@ -42,6 +42,10 @@ MONGODB_DB="nombre_de_la_bd"
 
 These values are used at application startup to establish a single connection that is shared across the app.
 
+### Adding new drops
+
+Each drop of caps is described in `src/drops/drops.config.ts`. Add a new entry with its slug, display name, MongoDB collection and asset paths. Assets such as logos and backgrounds should live under `public/drops/<slug>/` and be referenced from the configuration file. Routes for validation follow the pattern `/drops/{slug}/validar/{id}` or `/drops/{slug}/validar/alerta/{id}`.
+
 ## Compile and run the project
 
 ```bash

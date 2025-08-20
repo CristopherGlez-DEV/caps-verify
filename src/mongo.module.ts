@@ -1,7 +1,6 @@
 import { Module, Global } from '@nestjs/common';
-import { MongoClient, Collection } from 'mongodb';
+import { MongoClient, Db } from 'mongodb';
 import * as dotenv from 'dotenv';
-import { Gorra } from './gorras/gorra.interface';
 
 dotenv.config();
 
@@ -21,17 +20,19 @@ dotenv.config();
       },
     },
     {
-      provide: 'GORRAS_COLLECTION',
-      useFactory: (client: MongoClient) => {
+
+      provide: 'MONGO_DB',
+      useFactory: (client: MongoClient): Db => {
+
         const dbName = process.env.MONGODB_DB;
         if (!dbName) {
           throw new Error('MONGODB_DB not provided');
         }
-        return client.db(dbName).collection<Gorra>('gorras');
+        return client.db(dbName);
       },
       inject: ['MONGO_CLIENT'],
     },
   ],
-  exports: ['MONGO_CLIENT', 'GORRAS_COLLECTION'],
+  exports: ['MONGO_CLIENT', 'MONGO_DB'],
 })
 export class MongoModule {}
