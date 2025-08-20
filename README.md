@@ -15,6 +15,7 @@ SUPABASE_ANON_KEY="<tu-clave-anon>"
 ```
 
 ## Instalación
+
 ```bash
 npm install
 ```
