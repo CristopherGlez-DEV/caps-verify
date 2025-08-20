@@ -1,37 +1,42 @@
 import { Injectable } from "@nestjs/common";
-import { createClient } from "@supabase/supabase-js";
+import { MongoClient, Collection } from "mongodb";
 import * as dotenv from "dotenv";
 import { Gorra } from "./gorra.interface";
+
 dotenv.config();
 
 @Injectable()
 export class GorrasService {
-  supabaseUrl = process.env.SUPABASE_URL!;
-  supabaseKey = process.env.SUPABASE_ANON_KEY!;
-  private supabase = createClient(
-    process.env.SUPABASE_URL as string,
-    process.env.SUPABASE_ANON_KEY as string,
-  );
+  private client: MongoClient | null = null;
+  private collection: Collection<Gorra> | null = null;
+
+  private async getCollection(): Promise<Collection<Gorra>> {
+    if (!this.collection) {
+      const uri = process.env.MONGODB_URI;
+      const dbName = process.env.MONGODB_DB;
+
+      if (!uri || !dbName) {
+        throw new Error("MongoDB configuration not provided");
+      }
+
+      this.client = new MongoClient(uri);
+      await this.client.connect();
+      this.collection = this.client.db(dbName).collection<Gorra>("gorras");
+    }
+
+    return this.collection;
+  }
 
   async getGorraById(id: string): Promise<Gorra> {
-    const { data, error } = await this.supabase
-      .from("gorras")
-      .select("*")
-      .eq("id", id)
-      .single();
+    const collection = await this.getCollection();
+    const gorra = await collection.findOne({ id });
 
-    if (error || !data) throw error || new Error("No se encontró la gorra");
+    if (!gorra) {
+      throw new Error("No se encontró la gorra");
+    }
 
-    await this.supabase
-      .from("gorras")
-      .update({ contador: data.contador + 1 })
-      .eq("id", id);
+    await collection.updateOne({ id }, { $inc: { contador: 1 } });
 
-    const updatedGorra: Gorra = {
-      ...data,
-      contador: data.contador + 1,
-    };
-
-    return updatedGorra;
+    return { ...gorra, contador: gorra.contador + 1 };
   }
 }
