@@ -17,7 +17,6 @@ export class GorrasService {
     }
 
     await this.collection.updateOne({ id }, { $inc: { contador: 1 } });
-
     return { ...gorra, contador: gorra.contador + 1 };
   }
 }
