@@ -12,7 +12,7 @@ export const DROPS: DropConfig[] = [
     name: 'Skull-NY',
     collection: 'gorras_skull_ny',
     logo: '/drops/skull-ny/logo.jpeg',
-    background: '/drops/skull-ny/background2.jpg',
+    background: '/drops/skull-ny/background4.png',
   },
   {
     slug: 'skull-ny-2',
