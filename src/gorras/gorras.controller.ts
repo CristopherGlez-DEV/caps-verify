@@ -1,6 +1,7 @@
 import { Controller, Get, Render, Param } from '@nestjs/common';
 import { GorrasService } from './gorras.service';
 import { DropConfigService } from '../drops/drop-config.service';
+import { ApiParam } from '@nestjs/swagger';
 
 @Controller('drops/:drop')
 export class GorrasController {
@@ -11,6 +12,8 @@ export class GorrasController {
 
   @Get('idgorra/:id')
   @Render('validacion-alerta')
+  @ApiParam({ name: 'drop', example: 'skull-ny' })
+  @ApiParam({ name: 'id', example: 'prueba' })
   async validarConAlerta(
     @Param('drop') drop: string,
     @Param('id') id: string,

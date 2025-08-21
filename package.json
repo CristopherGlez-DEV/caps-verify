@@ -24,11 +24,14 @@
     "@nestjs/core": "^11.0.1",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^11.1.5",
+    "@nestjs/swagger": "^11.2.0",
     "dotenv": "^17.2.0",
     "ejs": "^3.1.10",
     "mongodb": "^6.18.0",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "swagger-themes": "^1.4.3",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

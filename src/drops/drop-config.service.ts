@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { DROPS, DropConfig } from './drops.config';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class DropConfigService {
   getDrop(slug: string): DropConfig {
     const drop = this.dropMap.get(slug);
     if (!drop) {
-      throw new Error(`Drop ${slug} no configurado`);
+      throw new BadRequestException(`Drop ${slug} no configurado`);
     }
     return drop;
   }
